@@ -4,14 +4,13 @@ import com.foreignlove.nation.model.Nation;
 import com.foreignlove.nation.service.NationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/nations")
 public class V1RestNationController {
