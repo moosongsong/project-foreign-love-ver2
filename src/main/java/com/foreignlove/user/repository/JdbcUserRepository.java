@@ -55,7 +55,6 @@ public class JdbcUserRepository implements UserRepository {
         Map<String, Object> map = new HashMap<>();
         map.put("email", email);
         map.put("password", password);
-        System.out.println(email+" "+ password);
         try {
             user = jdbcTemplate.queryForObject(
                 "SELECT * FROM users_view WHERE email = :email and password = PASSWORD(:password)", map, userRowMapper);
