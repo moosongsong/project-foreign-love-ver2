@@ -4900,6 +4900,11 @@ textarea.form-control-lg {
   vertical-align: baseline;
   border-radius: 0.25rem;
 }
+
+.badge-pill{
+  border-radius: 0.75rem;
+}
+
 .badge:empty {
   display: none;
 }

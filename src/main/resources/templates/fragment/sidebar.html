@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="col-lg-4" th:fragment="sidebarFragment">
+    <div class="card mb-4" id="user_container"></div>
+    <div class="mb-4">
+        <button type="button" class="btn btn-outline-dark btn-block">쪽지함 <span class="badge badge-pill bg-success">0</span></button>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">검색</div>
+        <div class="card-body">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="검색어를 입력해주세요"
+                       aria-label="Enter search term..." aria-describedby="button-search"/>
+                <button class="btn btn-outline-dark disabled" id="button-search" type="button">Go!</button>
+            </div>
+        </div>
+    </div>
+    <script src="/js/fragment/sidebar_user.js"></script>
+</div>
+</html>
