@@ -1,7 +1,6 @@
 package com.foreignlove.user.model;
 
 import com.fasterxml.uuid.Generators;
-import com.foreignlove.nation.model.Nation;
 import com.foreignlove.school.model.School;
 
 import java.time.LocalDateTime;
@@ -41,6 +40,10 @@ public class User {
         this.deletedAt = deletedAt;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     public Map<String, Object> getParamMap() {
         Map<String, Object> map = new HashMap<>();
         map.put("id", id.toString());
@@ -59,19 +62,6 @@ public class User {
     public Response getResponse() {
         return new Response(id, email, name, password, school.getResponse(), nickname, imageUrl, createdAt);
     }
-
-    public record LoginRequest(
-        String email,
-        String password
-    ) {}
-
-    public record Request(
-        String email,
-        String name,
-        String password,
-        UUID schoolId,
-        String nickname
-    ) {}
 
     public record Response(
         UUID id,
