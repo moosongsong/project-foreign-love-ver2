@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Sock</title>
+</head>
+<div class="col-lg-8" layout:fragment="content">
+    <article>
+        <header class="mb-4">
+            <h1 class="fw-bolder mb-1" id="title">제목을 여기에 써주세여</h1>
+            <div class="text-muted fst-italic mb-2" id="createdAt_writer">작성일자와 작성인을 기재해주세여</div>
+            <span class="badge bg-secondary text-decoration-none link-light" id="school">여기는 대학교를 기재해주세욧</span>
+            <span class="badge bg-secondary text-decoration-none link-light" id="nation">여기는 국가를 기재해주세욧</span>
+        </header>
+        <figure class="mb-4" id="image_box"></figure>
+        <section class="mb-5">
+            <p class="fs-5 mb-4" id="content">여기에 내용을 적어주세여</p>
+        </section>
+    </article>
+    <!-- Comments section-->
+    <section class="mb-5">
+        <div class="card bg-light">
+            <div class="card-body">
+                <!-- Comment form-->
+                <form class="mb-4">
+                    <textarea class="form-control" rows="3"
+                              placeholder="Join the discussion and leave a comment!"></textarea>
+                </form>
+                <!-- Comment with nested comments-->
+                <div class="d-flex mb-4">
+                    <!-- Parent comment-->
+                    <div class="flex-shrink-0">
+                        <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..."/>
+                    </div>
+                    <div class="ms-3">
+                        <div class="fw-bold">Commenter Name</div>
+                        If you're going to lead a space frontier, it has to be government; it'll never be
+                        private enterprise. Because the space frontier is dangerous, and it's expensive, and it
+                        has unquantified risks.
+                        <!-- Child comment 1-->
+                        <div class="d-flex mt-4">
+                            <div class="flex-shrink-0"><img class="rounded-circle"
+                                                            src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
+                                                            alt="..."/></div>
+                            <div class="ms-3">
+                                <div class="fw-bold">Commenter Name</div>
+                                And under those conditions, you cannot establish a capital-market evaluation of
+                                that enterprise. You can't get investors.
+                            </div>
+                        </div>
+                        <!-- Child comment 2-->
+                        <div class="d-flex mt-4">
+                            <div class="flex-shrink-0"><img class="rounded-circle"
+                                                            src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
+                                                            alt="..."/></div>
+                            <div class="ms-3">
+                                <div class="fw-bold">Commenter Name</div>
+                                When you put money directly to a problem, it makes a good headline.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Single comment-->
+                <div class="d-flex">
+                    <div class="flex-shrink-0"><img class="rounded-circle"
+                                                    src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
+                                                    alt="..."/></div>
+                    <div class="ms-3">
+                        <div class="fw-bold">Commenter Name</div>
+                        When I look at the universe and all the ways the universe wants to kill us, I find it
+                        hard to reconcile that with statements of beneficence.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        function getDetail() {
+            $.ajax({
+                url: "/api/v1/free/" + location.pathname.split("/")[2],
+                type: "get",
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                async: false,
+                success: function (data) {
+                    if (data.length === 0) {
+                        location.replace("/not-found");
+                    } else {
+                        $('#title').text(data.title);
+                        let createdAtList = data.createdAt.split('T');
+                        $('#createdAt_writer').text(createdAtList[0] + ' ' + createdAtList[1] + '  By ' + data.user.nickname);
+                        $('#school').text(data.user.school.name);
+                        $('#nation').text(data.user.school.nation.name);
+                        $("#content").text(data.content);
+                        if (data.imageUrl != null) {
+                            let dataImage = $('<img>', {class: 'img-fluid rounded', src: data.imageUrl});
+                            dataImage.appendTo("#image_box");
+                        }
+                    }
+                },
+                error: function (e) {
+                    location.replace("/not-found");
+                }
+            });
+        }
+        $(document).ready(function () {
+            $('#free_li').addClass('active');
+            getDetail();
+        });
+    </script>
+</div>
