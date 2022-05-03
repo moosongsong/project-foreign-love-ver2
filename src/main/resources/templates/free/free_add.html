@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Sock</title>
+</head>
+<div class="col-lg-8" layout:fragment="content">
+    <article>
+        <header class="mb-4">
+            <h1 class="fw-bolder mb-1" id="title">새로운 글쓰기</h1>
+            <div class="text-muted fst-italic mb-2">자유게시판에 글을 남겨보세요!</div>
+        </header>
+        <hr/>
+        <section class="mb-5">
+            <form>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="post_title" placeholder="제목을 입력해주세요.">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" id="post_content" rows="10" placeholder="내용을 입력해주세요."></textarea>
+                </div>
+                <button type="button" class="btn btn-outline-dark" onclick="postBoard()">등록하기</button>
+            </form>
+        </section>
+    </article>
+
+    <script>
+        function postBoard() {
+            $.ajax({
+                url: "/api/v1/free",
+                type: "post",
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                traditional: 'true',
+                data: JSON.stringify({
+                    title: $('#post_title').val(),
+                    content: $('#post_content').val(),
+                }),
+                success: function (data) {
+                    if (data.length === 0) {
+                        Swal.fire('등록 실패', '다시 한 번 시도해주세요.', 'error');
+                        alert('조회 결과가 없습니다.');
+                    } else {
+                        Swal.fire('등록 성공', "자유게시판에 등록되었어욧!", 'success').then(() => location.href = '/free/' + data.id);
+                    }
+                },
+                error: function (e) {
+                    Swal.fire('등록 실패', '다시 한 번 시도해주세요.', 'error');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $('#free_li').addClass('active');
+        });
+    </script>
+</div>
