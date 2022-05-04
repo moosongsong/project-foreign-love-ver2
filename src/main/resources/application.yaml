@@ -9,7 +9,7 @@ spring:
       max-request-size: 10MB
   datasource:
     password: 1234
-    username: rot
+    username: root
     url: jdbc:mariadb://localhost/foreign_love
 
 logging:
