@@ -26,6 +26,8 @@ dependencies {
     implementation group: 'com.fasterxml.uuid', name: 'java-uuid-generator', version: '4.0.1'
     implementation group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '3.1.0'
     implementation group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '2.6.7'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     annotationProcessor 'org.projectlombok:lombok'

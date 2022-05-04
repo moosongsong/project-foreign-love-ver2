@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    include:
+      - aws
+      - credentials
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  datasource:
+    password: 1234
+    username: rot
+    url: jdbc:mariadb://localhost/foreign_love
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
