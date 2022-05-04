@@ -2,6 +2,7 @@ package com.foreignlove.infra.s3.service;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,6 +13,9 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class S3FileIOManager {
+    @Value("${AWS_S3_BUCKET_URL}")
+    private String AWS_S3_BUCKET_URL;
+
     private final UploadService s3Service;
 
     public String uploadImage(MultipartFile file) {
@@ -25,6 +29,11 @@ public class S3FileIOManager {
             throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발생하였습니다 (%s)", file.getOriginalFilename()));
         }
         return s3Service.getFileUrl(fileName);
+    }
+
+    public void removeImage(String imageUrl) {
+        String fileName = imageUrl.substring(AWS_S3_BUCKET_URL.length());
+        s3Service.removeFile(fileName);
     }
 
     private String createFileName(String originalFileName) {

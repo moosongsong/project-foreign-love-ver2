@@ -31,6 +31,12 @@ public class V1RestFreeBoardController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping ("/{id}")
+    public ResponseEntity<Object> remove(@PathVariable UUID id, HttpSession session) {
+        freeBoardService.remove(id, (User) session.getAttribute("user"));
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/check/{id}")
     public ResponseEntity<Object> isMine(@PathVariable UUID id, HttpSession session) {
         User user = (User) session.getAttribute("user");

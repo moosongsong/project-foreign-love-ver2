@@ -70,6 +70,12 @@ public class JdbcFreeBoardRepository implements FreeBoardRepository {
         return jdbcTemplate.query("SELECT * from freeboard_view ORDER BY created_at DESC", freeBoardRowMapper);
     }
 
+    @Override
+    public void delete(UUID id) {
+        jdbcTemplate.update("DELETE FROM free_board WHERE id = UNHEX(REPLACE(:id, '-', ''))",
+            Collections.singletonMap("id", id.toString()));
+    }
+
     private final RowMapper<FreeBoard> freeBoardRowMapper = (rs, rowNum) -> {
         UUID nationId = JdbcUtils.toUUID(rs.getBytes("nation_id"));
         String nationName = rs.getString("nation_name");

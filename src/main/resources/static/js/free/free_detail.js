@@ -9,6 +9,7 @@ function getDetail() {
             if (data.length === 0) {
                 location.replace("/not-found");
             } else {
+                $('title').text(data.title);
                 $('#title').text(data.title);
                 let createdAtList = data.createdAt.split('T');
                 $('#createdAt_writer').text(createdAtList[0] + ' ' + createdAtList[1] + '  By ' + data.user.nickname);
@@ -46,14 +47,28 @@ function getDetail() {
                 let button2 = $('<button>', {
                     class: "btn btn-outline-dark ms-2",
                     type: "button",
-                    text: '삭제하기'
+                    text: '삭제하기',
+                    onclick: 'deletePost()'
                 });
                 button1.appendTo(section_body);
                 button2.appendTo(section_body);
             }
         },
         error: function (e) {
-            location.replace("/not-found");
+            console.log(e);
+        }
+    });
+}
+
+function deletePost() {
+    $.ajax({
+        url: "/api/v1/free/" + location.pathname.split("/")[2],
+        type: "delete",
+        success: function (data) {
+            Swal.fire('삭제 성공', "게시글이 삭제되었어욧!", 'success').then(() => location.href = '/free');
+        },
+        error: function (e) {
+            Swal.fire('삭제 실패', "한번 더 시도해주세요!", 'success');
         }
     });
 }

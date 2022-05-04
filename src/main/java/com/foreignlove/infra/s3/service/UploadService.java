@@ -8,6 +8,8 @@ public interface UploadService {
 
 	void uploadFile(InputStream inputStream, ObjectMetadata objectMetadata, String fileName);
 
+	void removeFile(String fileName);
+
 	String getFileUrl(String fileName);
 
 }

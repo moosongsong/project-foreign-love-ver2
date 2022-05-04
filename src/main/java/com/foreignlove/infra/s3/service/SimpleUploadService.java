@@ -23,6 +23,11 @@ public class SimpleUploadService implements UploadService {
 	}
 
 	@Override
+	public void removeFile(String fileName) {
+		amazonS3.deleteObject(component.getBucket(), fileName);
+	}
+
+	@Override
 	public String getFileUrl(String fileName) {
 		return amazonS3.getUrl(component.getBucket(), fileName).toString();
 	}

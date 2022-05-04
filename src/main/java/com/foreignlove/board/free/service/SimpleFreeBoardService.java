@@ -7,9 +7,11 @@ import com.foreignlove.common.exception.FindFailException;
 import com.foreignlove.infra.s3.service.S3FileIOManager;
 import com.foreignlove.nation.model.Nation;
 import com.foreignlove.school.model.School;
+import com.foreignlove.user.exception.LoginFailException;
 import com.foreignlove.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -37,9 +39,9 @@ public class SimpleFreeBoardService implements FreeBoardService {
 
     @Override
     public Boolean isMine(UUID id, User user) {
-        try{
+        try {
             freeBoardRepository.findByIdAndUserId(id, user.getId());
-        }catch (FindFailException e){
+        } catch (FindFailException e) {
             return false;
         }
         return true;
@@ -48,6 +50,20 @@ public class SimpleFreeBoardService implements FreeBoardService {
     @Override
     public List<FreeBoard> getAll() {
         return freeBoardRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public void remove(UUID id, User user) {
+        FreeBoard freeBoard = freeBoardRepository.findById(id);
+        if (freeBoard.getUser().getId().toString().equals(user.getId().toString())) {
+            if (freeBoard.getImageUrl() != null) {
+                s3FileIOManager.removeImage(freeBoard.getImageUrl());
+            }
+            freeBoardRepository.delete(id);
+        } else {
+            throw new LoginFailException();
+        }
     }
 
     private FreeBoardDetailResponse getDetailResponseFrom(FreeBoard freeBoard) {

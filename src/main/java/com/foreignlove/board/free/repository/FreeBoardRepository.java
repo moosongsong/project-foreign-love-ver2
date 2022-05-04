@@ -13,4 +13,6 @@ public interface FreeBoardRepository {
     FreeBoard findByIdAndUserId(UUID id, UUID userId);
 
     List<FreeBoard> findAll();
+
+    void delete(UUID id);
 }

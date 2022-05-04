@@ -8,3 +8,5 @@ cloud:
       auto: false
     credentials:
       instanceProfile: true
+
+AWS_S3_BUCKET_URL: https://moosongsong.s3.ap-northeast-2.amazonaws.com/foreignlove/

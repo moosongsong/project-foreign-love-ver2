@@ -16,4 +16,6 @@ public interface FreeBoardService {
     Boolean isMine(UUID id, User user);
 
     List<FreeBoard> getAll();
+
+    void remove(UUID id, User user);
 }
