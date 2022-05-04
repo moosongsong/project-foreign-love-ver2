@@ -3247,6 +3247,7 @@ textarea.form-control-lg {
   color: #fff;
   background-color: #1c1f23;
   border-color: #1a1e21;
+  cursor: pointer;
 }
 .btn-check:focus + .btn-dark, .btn-dark:focus {
   color: #fff;
