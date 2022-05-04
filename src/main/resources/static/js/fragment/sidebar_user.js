@@ -41,7 +41,12 @@ $(document).ready(function () {
         dataType: "json",
         contentType: "application/json;charset=UTF-8",
         success: function (data) {
-            let card_image = $('<img>', {class: 'card-img-top', src: data.imageUrl});
+            let card_image;
+            if(!data.imageUrl){
+                card_image = $('<img>', {class: 'card-img-top', src: 'https://moosongsong.s3.ap-northeast-2.amazonaws.com/foreignlove/images.png'});
+            }else{
+                card_image = $('<img>', {class: 'card-img-top', src: data.imageUrl});
+            }
             card_image.appendTo("#user_container");
 
             let card_body = $('<div>', {class: 'card-body'});

@@ -35,7 +35,6 @@ function getDetail() {
         async: false,
         success: function (data) {
             if (data === true) {
-                // let section_body = $('<section>', {class: "mb-4",style:"text-align: right"});
                 let section_body = $('#owner_container');
                 section_body.addClass("mb-4");
                 section_body.css("text-align", "right");
