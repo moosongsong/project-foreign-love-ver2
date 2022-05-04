@@ -2,11 +2,13 @@ package com.foreignlove.nation.model;
 
 import com.fasterxml.uuid.Generators;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Getter
 @AllArgsConstructor
 public class Nation {
     private final UUID id;

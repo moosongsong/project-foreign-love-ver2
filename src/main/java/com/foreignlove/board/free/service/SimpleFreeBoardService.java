@@ -1,8 +1,11 @@
 package com.foreignlove.board.free.service;
 
+import com.foreignlove.board.free.dto.FreeBoardDetailResponse;
 import com.foreignlove.board.free.model.FreeBoard;
 import com.foreignlove.board.free.repository.FreeBoardRepository;
 import com.foreignlove.infra.s3.service.S3FileIOManager;
+import com.foreignlove.nation.model.Nation;
+import com.foreignlove.school.model.School;
 import com.foreignlove.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,12 +29,27 @@ public class SimpleFreeBoardService implements FreeBoardService {
     }
 
     @Override
-    public FreeBoard getById(UUID id) {
-        return freeBoardRepository.findById(id);
+    public FreeBoardDetailResponse getById(UUID id) {
+        FreeBoard freeBoard = freeBoardRepository.findById(id);
+        return getDetailResponseFrom(freeBoard);
     }
 
     @Override
     public List<FreeBoard> getAll() {
         return freeBoardRepository.findAll();
+    }
+
+    public FreeBoardDetailResponse getDetailResponseFrom(FreeBoard freeBoard) {
+        User user = freeBoard.getUser();
+        School school = user.getSchool();
+        Nation nation = school.getNation();
+        FreeBoardDetailResponse.UserResponse userResponse = new FreeBoardDetailResponse.UserResponse(user.getId(),
+            user.getNickname());
+        FreeBoardDetailResponse.SchoolResponse schoolResponse =
+            new FreeBoardDetailResponse.SchoolResponse(school.getId(), school.getName());
+        FreeBoardDetailResponse.NationResponse nationResponse =
+            new FreeBoardDetailResponse.NationResponse(nation.getId(), nation.getName());
+        return new FreeBoardDetailResponse(freeBoard.getId(), freeBoard.getTitle(), freeBoard.getContent(),
+            userResponse, schoolResponse, nationResponse, freeBoard.getImageUrl(), freeBoard.getCreatedAt());
     }
 }

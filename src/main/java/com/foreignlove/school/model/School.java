@@ -2,11 +2,13 @@ package com.foreignlove.school.model;
 
 import com.foreignlove.nation.model.Nation;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Getter
 @AllArgsConstructor
 public class School {
     private UUID id;

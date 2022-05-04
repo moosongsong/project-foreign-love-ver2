@@ -13,8 +13,12 @@
             <span class="badge bg-secondary text-decoration-none link-light" id="nation">여기는 국가를 기재해주세욧</span>
         </header>
         <figure class="mb-4" id="image_box"></figure>
-        <section class="mb-5">
+        <section>
             <p class="fs-5 mb-4" id="content">여기에 내용을 적어주세여</p>
+        </section>
+        <section class="mb-4" style="text-align: right">
+            <button type="button" class="btn btn-outline-dark disabled">수정하기</button>
+            <button type="button" class="btn btn-outline-dark">삭제하기</button>
         </section>
     </article>
     <!-- Comments section-->
@@ -89,8 +93,8 @@
                         $('#title').text(data.title);
                         let createdAtList = data.createdAt.split('T');
                         $('#createdAt_writer').text(createdAtList[0] + ' ' + createdAtList[1] + '  By ' + data.user.nickname);
-                        $('#school').text(data.user.school.name);
-                        $('#nation').text(data.user.school.nation.name);
+                        $('#school').text(data.school.name);
+                        $('#nation').text(data.nation.name);
                         $("#content").text(data.content);
                         if (data.imageUrl != null) {
                             let dataImage = $('<img>', {class: 'img-fluid rounded', src: data.imageUrl});
@@ -103,6 +107,7 @@
                 }
             });
         }
+
         $(document).ready(function () {
             $('#free_li').addClass('active');
             getDetail();

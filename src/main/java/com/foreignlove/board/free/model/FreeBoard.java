@@ -3,6 +3,7 @@ package com.foreignlove.board.free.model;
 import com.fasterxml.uuid.Generators;
 import com.foreignlove.board.model.Board;
 import com.foreignlove.user.model.User;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -10,10 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-
+@Getter
 public class FreeBoard extends Board {
     public FreeBoard(String title, String content, String imageUrl, User user) {
-        super(Generators.timeBasedGenerator().generate(), user, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), null);
+        super(Generators.timeBasedGenerator().generate(), user, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS),
+            null);
         this.title = title;
         this.content = content;
         this.imageUrl = imageUrl;

@@ -2,6 +2,7 @@ package com.foreignlove.user.model;
 
 import com.fasterxml.uuid.Generators;
 import com.foreignlove.school.model.School;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Getter
 public class User {
     private final UUID id;
     private final String email;
@@ -38,10 +40,6 @@ public class User {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
-    }
-
-    public UUID getId() {
-        return id;
     }
 
     public Map<String, Object> getParamMap() {

@@ -1,10 +1,12 @@
 package com.foreignlove.board.model;
 
 import com.foreignlove.user.model.User;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Getter
 public abstract class Board {
     protected final UUID id;
     protected String title;

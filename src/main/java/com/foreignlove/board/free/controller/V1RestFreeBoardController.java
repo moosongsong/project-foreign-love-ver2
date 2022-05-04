@@ -1,5 +1,6 @@
 package com.foreignlove.board.free.controller;
 
+import com.foreignlove.board.free.dto.FreeBoardDetailResponse;
 import com.foreignlove.board.free.model.FreeBoard;
 import com.foreignlove.board.free.service.FreeBoardService;
 import com.foreignlove.user.model.User;
@@ -26,7 +27,7 @@ public class V1RestFreeBoardController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> detail(@PathVariable("id") UUID id) {
-        FreeBoard.Response response = freeBoardService.getById(id).getResponse();
+        FreeBoardDetailResponse response = freeBoardService.getById(id);
         return ResponseEntity.ok(response);
     }
 
