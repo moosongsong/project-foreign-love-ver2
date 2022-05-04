@@ -1,13 +1,15 @@
 package com.foreignlove.user.service;
 
+import com.foreignlove.infra.s3.service.S3FileIOManager;
 import com.foreignlove.school.model.School;
 import com.foreignlove.school.repository.SchoolRepository;
 import com.foreignlove.user.dto.UserLoginRequest;
-import com.foreignlove.user.dto.UserRegisterRequest;
 import com.foreignlove.user.model.User;
 import com.foreignlove.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -16,11 +18,15 @@ import java.util.UUID;
 public class SimpleUserService implements UserService {
     private final UserRepository userRepository;
     private final SchoolRepository schoolRepository;
+    private final S3FileIOManager s3FileIOManager;
 
     @Override
-    public User add(UserRegisterRequest request) {
-        School school = schoolRepository.findById(request.schoolId());
-        User user = new User(request.email(), request.name(), request.password(), school, request.nickname());
+    @Transactional
+    public User add(String name, String email, String password, String nickname, UUID schoolId, MultipartFile file) {
+        School school = schoolRepository.findById(schoolId);
+        String imageUrl = null;
+        if (!file.isEmpty()) imageUrl = s3FileIOManager.uploadImage(file);
+        User user = new User(email, name, password, school, nickname, imageUrl);
         return userRepository.save(user);
     }
 

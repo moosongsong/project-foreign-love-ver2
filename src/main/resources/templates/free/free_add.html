@@ -42,7 +42,6 @@
                 success: function (data) {
                     if (data.length === 0) {
                         Swal.fire('등록 실패', '다시 한 번 시도해주세요.', 'error');
-                        alert('조회 결과가 없습니다.');
                     } else {
                         Swal.fire('등록 성공', "자유게시판에 등록되었어욧!", 'success').then(() => location.href = '/free/' + data.id);
                     }

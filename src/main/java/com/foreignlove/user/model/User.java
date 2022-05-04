@@ -23,8 +23,8 @@ public class User {
     protected LocalDateTime updatedAt;
     protected LocalDateTime deletedAt;
 
-    public User(String email, String name, String password, School school, String nickname) {
-        this(Generators.timeBasedGenerator().generate(), email, name, password, school, nickname, null,
+    public User(String email, String name, String password, School school, String nickname, String imageUrl) {
+        this(Generators.timeBasedGenerator().generate(), email, name, password, school, nickname, imageUrl,
             LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), null, null);
     }
 

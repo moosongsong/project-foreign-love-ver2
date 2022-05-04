@@ -14,4 +14,9 @@ public class CommonRouterController {
     public String notfound(){
         return "common/404_not_found";
     }
+
+    @GetMapping("/register")
+    public String register(){
+        return "user/register";
+    }
 }

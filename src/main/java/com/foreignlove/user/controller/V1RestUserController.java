@@ -1,13 +1,13 @@
 package com.foreignlove.user.controller;
 
 import com.foreignlove.user.dto.UserLoginRequest;
-import com.foreignlove.user.dto.UserRegisterRequest;
 import com.foreignlove.user.model.User;
 import com.foreignlove.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
@@ -20,8 +20,10 @@ public class V1RestUserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<Object> save(@RequestBody Optional<UserRegisterRequest> request) {
-        User user = request.map(userService::add).orElseThrow();
+    public ResponseEntity<Object> save(@RequestPart String name, @RequestPart String email,
+                                       @RequestPart String password, @RequestPart String nickname,
+                                       @RequestPart String school, @RequestPart MultipartFile file) {
+        User user = userService.add(name, email, password, nickname, UUID.fromString(school), file);
         return ResponseEntity.ok(user.getResponse());
     }
 
