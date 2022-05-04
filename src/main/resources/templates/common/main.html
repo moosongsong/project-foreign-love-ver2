@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>자유게시판</title>
+</head>
+<div class="col-lg-8" layout:fragment="content">
+    <article>
+        <!-- Preview image figure-->
+        <figure class="mb-4">
+            <div class="slider">
+                <div class="slides">
+                    <div id="slide-1"><img src="https://vrthumb.imagetoday.co.kr/2021/04/01/tid316t001977.jpg" alt="">
+                    </div>
+                    <div id="slide-2"><img src="https://vrthumb.imagetoday.co.kr/2021/09/24/ta0078t000070.jpg" alt="">
+                    </div>
+                    <div id="slide-3"><img src="https://vrthumb.imagetoday.co.kr/2021/04/01/tid316t001962.jpg" alt="">
+                    </div>
+                </div>
+
+                <a href="#slide-1">1</a>
+                <a href="#slide-2">2</a>
+                <a href="#slide-3">3</a>
+            </div>
+            <header class="mb-4">
+                <h3 class="fw-bolder mb-1">Hot 게시글</h3>
+            </header>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">제목</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">작성일자</th>
+                </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </figure>
+    </article>
+    <script>
+        $(document).ready(function () {
+            function getList() {
+                $.ajax({
+                    url: "/api/v1/free",
+                    type: "get",
+                    dataType: "json",
+                    contentType: "application/json;charset=UTF-8",
+                    async: false,
+                    success: function (data) {
+                        if (data.length === 0) {
+                            alert('조회 결과가 없습니다.');
+                        } else {
+                            let i = 0;
+                            for (const datum of data) {
+                                i++;
+                                let tr = $('<tr>', {onClick: "location.href='/free/" + datum.id + "'"});
+                                tr.css('cursor', 'pointer');
+                                let td1 = $('<td>');
+                                td1.text(datum.title);
+                                let td2 = $('<td>');
+                                td2.text(datum.user.nickname);
+                                let td3 = $('<td>');
+                                td3.text(datum.createdAt.substring(0, 10));
+                                td1.appendTo(tr);
+                                td2.appendTo(tr);
+                                td3.appendTo(tr);
+                                tr.appendTo('#tableBody');
+                                if (i === 3) {
+                                    break;
+                                }
+                            }
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                });
+            }
+            $('#home_li').addClass('active');
+            getList();
+        });
+    </script>
+</div>
