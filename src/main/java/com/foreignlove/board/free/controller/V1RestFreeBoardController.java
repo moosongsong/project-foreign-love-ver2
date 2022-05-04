@@ -31,6 +31,14 @@ public class V1RestFreeBoardController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/check/{id}")
+    public ResponseEntity<Object> isMine(@PathVariable UUID id, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) return ResponseEntity.ok(false);
+        Boolean response = freeBoardService.isMine(id, user);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping
     public ResponseEntity<Object> add(@RequestPart String title, @RequestPart String content,
                                       @RequestPart MultipartFile file, HttpSession session) {

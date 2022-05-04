@@ -3,6 +3,7 @@ package com.foreignlove.board.free.service;
 import com.foreignlove.board.free.dto.FreeBoardDetailResponse;
 import com.foreignlove.board.free.model.FreeBoard;
 import com.foreignlove.board.free.repository.FreeBoardRepository;
+import com.foreignlove.common.exception.FindFailException;
 import com.foreignlove.infra.s3.service.S3FileIOManager;
 import com.foreignlove.nation.model.Nation;
 import com.foreignlove.school.model.School;
@@ -35,11 +36,21 @@ public class SimpleFreeBoardService implements FreeBoardService {
     }
 
     @Override
+    public Boolean isMine(UUID id, User user) {
+        try{
+            freeBoardRepository.findByIdAndUserId(id, user.getId());
+        }catch (FindFailException e){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public List<FreeBoard> getAll() {
         return freeBoardRepository.findAll();
     }
 
-    public FreeBoardDetailResponse getDetailResponseFrom(FreeBoard freeBoard) {
+    private FreeBoardDetailResponse getDetailResponseFrom(FreeBoard freeBoard) {
         User user = freeBoard.getUser();
         School school = user.getSchool();
         Nation nation = school.getNation();

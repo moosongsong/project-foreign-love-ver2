@@ -14,9 +14,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static com.foreignlove.common.util.JdbcUtils.toLocaleDateTime;
 
@@ -29,7 +27,8 @@ public class JdbcFreeBoardRepository implements FreeBoardRepository {
     public FreeBoard save(FreeBoard freeBoard) {
         int result = jdbcTemplate.update(
             "INSERT INTO free_board(id, title, content,user_id, image_url, created_at, updated_at, deleted_at) " +
-                "VALUES(UNHEX(REPLACE(:id, '-', '')), :title, :content, UNHEX(REPLACE(:userId, '-', '')), :imageUrl, :createdAt, :updatedAt, :deletedAt)",
+                "VALUES(UNHEX(REPLACE(:id, '-', '')), :title, :content, UNHEX(REPLACE(:userId, '-', '')), :imageUrl, " +
+                ":createdAt, :updatedAt, :deletedAt)",
             freeBoard.getParamMap()
         );
         if (result != 1) throw new SaveFailException();
@@ -43,6 +42,23 @@ public class JdbcFreeBoardRepository implements FreeBoardRepository {
             freeBoard = jdbcTemplate.queryForObject(
                 "SELECT * from freeboard_view WHERE id = UNHEX(REPLACE(:id, '-', ''))",
                 Collections.singletonMap("id", id.toString()), freeBoardRowMapper);
+        } catch (DataAccessException e) {
+            throw new FindFailException();
+        }
+        return freeBoard;
+    }
+
+    @Override
+    public FreeBoard findByIdAndUserId(UUID id, UUID userId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id.toString());
+        map.put("userId", userId.toString());
+        FreeBoard freeBoard;
+        try {
+            freeBoard = jdbcTemplate.queryForObject(
+                "SELECT * from freeboard_view WHERE id = UNHEX(REPLACE(:id, '-', '')) AND user_id = UNHEX(REPLACE" +
+                    "(:userId, '-', ''))",
+                map, freeBoardRowMapper);
         } catch (DataAccessException e) {
             throw new FindFailException();
         }

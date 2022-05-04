@@ -10,5 +10,7 @@ public interface FreeBoardRepository {
 
     FreeBoard findById(UUID id);
 
+    FreeBoard findByIdAndUserId(UUID id, UUID userId);
+
     List<FreeBoard> findAll();
 }

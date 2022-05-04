@@ -13,5 +13,7 @@ public interface FreeBoardService {
 
     FreeBoardDetailResponse getById(UUID id);
 
+    Boolean isMine(UUID id, User user);
+
     List<FreeBoard> getAll();
 }
