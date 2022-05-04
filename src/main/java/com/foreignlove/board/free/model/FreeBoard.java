@@ -12,11 +12,11 @@ import java.util.UUID;
 
 
 public class FreeBoard extends Board {
-    public FreeBoard(String title, String content, User user) {
+    public FreeBoard(String title, String content, String imageUrl, User user) {
         super(Generators.timeBasedGenerator().generate(), user, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), null);
         this.title = title;
         this.content = content;
-        this.imageUrl = null;
+        this.imageUrl = imageUrl;
         this.updatedAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
     }
 

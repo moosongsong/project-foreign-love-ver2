@@ -1,12 +1,12 @@
 package com.foreignlove.board.free.controller;
 
-import com.foreignlove.board.free.dto.FreeBoardCreateRequest;
 import com.foreignlove.board.free.model.FreeBoard;
 import com.foreignlove.board.free.service.FreeBoardService;
 import com.foreignlove.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -31,9 +31,10 @@ public class V1RestFreeBoardController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> add(@RequestBody FreeBoardCreateRequest request, HttpSession session) {
-        FreeBoard.Response response = freeBoardService.add(request, (User) session.getAttribute("user")).getResponse();
+    public ResponseEntity<Object> add(@RequestPart String title, @RequestPart String content,
+                                      @RequestPart MultipartFile file, HttpSession session) {
+        FreeBoard.Response response = freeBoardService.add(title, content, file, (User) session.getAttribute("user"))
+            .getResponse();
         return ResponseEntity.ok(response);
     }
-
 }
