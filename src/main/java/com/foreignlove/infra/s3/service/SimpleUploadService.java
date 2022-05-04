@@ -1,10 +1,10 @@
-package com.foreignlove.infra.external;
+package com.foreignlove.infra.s3.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.foreignlove.infra.external.dto.component.S3Component;
+import com.foreignlove.infra.s3.component.S3Component;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.io.InputStream;
 
 @Service
 @RequiredArgsConstructor
-public class AwsS3UploadService implements UploadService {
+public class SimpleUploadService implements UploadService {
 	private final AmazonS3 amazonS3;
 	private final S3Component component;
 

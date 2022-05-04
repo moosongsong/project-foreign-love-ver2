@@ -1,4 +1,4 @@
-package com.foreignlove.infra.external.dto.component;
+package com.foreignlove.infra.s3.component;
 
 import lombok.Getter;
 import lombok.Setter;

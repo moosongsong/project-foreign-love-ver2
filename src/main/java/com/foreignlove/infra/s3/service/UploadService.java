@@ -1,4 +1,4 @@
-package com.foreignlove.infra.external;
+package com.foreignlove.infra.s3.service;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
 

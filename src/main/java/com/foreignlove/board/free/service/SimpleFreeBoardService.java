@@ -2,7 +2,7 @@ package com.foreignlove.board.free.service;
 
 import com.foreignlove.board.free.model.FreeBoard;
 import com.foreignlove.board.free.repository.FreeBoardRepository;
-import com.foreignlove.infra.service.FileUploadService;
+import com.foreignlove.infra.s3.service.S3FileIOManager;
 import com.foreignlove.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,12 +15,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class SimpleFreeBoardService implements FreeBoardService {
     private final FreeBoardRepository freeBoardRepository;
-    private final FileUploadService fileUploadService;
+    private final S3FileIOManager s3FileIOManager;
 
     @Override
     public FreeBoard add(String title, String content, MultipartFile file, User user) {
         String imageUrl = null;
-        if (!file.isEmpty()) imageUrl = fileUploadService.uploadImage(file);
+        if (!file.isEmpty()) imageUrl = s3FileIOManager.uploadImage(file);
         FreeBoard freeBoard = new FreeBoard(title, content, imageUrl, user);
         return freeBoardRepository.save(freeBoard);
     }

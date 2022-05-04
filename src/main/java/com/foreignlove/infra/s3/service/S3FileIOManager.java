@@ -1,7 +1,6 @@
-package com.foreignlove.infra.service;
+package com.foreignlove.infra.s3.service;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.foreignlove.infra.external.UploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +11,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class FileUploadService {
+public class S3FileIOManager {
     private final UploadService s3Service;
 
     public String uploadImage(MultipartFile file) {
