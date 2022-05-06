@@ -17,6 +17,18 @@ public abstract class Board {
     protected LocalDateTime updatedAt;
     protected final LocalDateTime deletedAt;
 
+    protected Board(UUID id, String title, String content, User user, String imageUrl, LocalDateTime createdAt,
+                 LocalDateTime updatedAt, LocalDateTime deletedAt) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.user = user;
+        this.imageUrl = imageUrl;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+    }
+
     protected Board(UUID id, User user, LocalDateTime createdAt, LocalDateTime deletedAt) {
         this.id = id;
         this.user = user;

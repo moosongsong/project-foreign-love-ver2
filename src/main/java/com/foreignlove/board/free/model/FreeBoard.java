@@ -14,21 +14,13 @@ import java.util.UUID;
 @Getter
 public class FreeBoard extends Board {
     public FreeBoard(String title, String content, String imageUrl, User user) {
-        super(Generators.timeBasedGenerator().generate(), user, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS),
-            null);
-        this.title = title;
-        this.content = content;
-        this.imageUrl = imageUrl;
-        this.updatedAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        this(Generators.timeBasedGenerator().generate(), title, content, user, imageUrl,
+            LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), null, null);
     }
 
     public FreeBoard(UUID id, String title, String content, User user, String imageUrl, LocalDateTime createdAt,
                      LocalDateTime updatedAt, LocalDateTime deletedAt) {
-        super(id, user, createdAt, deletedAt);
-        this.title = title;
-        this.content = content;
-        this.imageUrl = imageUrl;
-        this.updatedAt = updatedAt;
+        super(id, title, content, user, imageUrl, createdAt, updatedAt, deletedAt);
     }
 
     public Map<String, Object> getParamMap() {
