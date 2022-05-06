@@ -43,7 +43,7 @@ public class JdbcMarketBoardRepository implements MarketBoardRepository {
 
     @Override
     public List<MarketBoard> findAllByType(DealingType type) {
-        return jdbcTemplate.query("SELECT * FROM market_board_view WHERE type LIKE :type",
+        return jdbcTemplate.query("SELECT * FROM market_board_view WHERE type LIKE :type AND deleted_at IS NULL",
             Collections.singletonMap("type", type.toString()), marketBoardRowMapper);
     }
 

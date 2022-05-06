@@ -2,21 +2,34 @@
 <html lang="ko"
       layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <title>자유게시판</title>
+    <title>장터게시판</title>
 </head>
 <div class="col-lg-8" layout:fragment="content">
     <article>
         <header class="mb-4">
-            <h1 class="fw-bolder mb-1">자유게시판</h1>
+            <h1 class="fw-bolder mb-1">장터게시판</h1>
             <div class="text-muted fst-italic mb-2">장터게시판에서 거래를 진행해보세요!</div>
         </header>
+        <div class="card-header bg-white">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <span class="nav-link" id="all_li" onclick="getList('NONE')">전체</span>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link" id="sell_li" onclick="getList('SELL')">팝니다</span>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link" id="buy_li" onclick="getList('BUY')">삽니다</span>
+                </li>
+            </ul>
+        </div>
         <figure class="mb-4">
             <table class="table table-hover">
                 <thead>
                 <tr>
                     <th scope="col">분류</th>
                     <th scope="col">제목</th>
-                    <th scope="col">지역</th>
+                    <th scope="col">국가</th>
                     <th scope="col">작성자</th>
                     <th scope="col">작성일자</th>
                 </tr>
@@ -28,70 +41,85 @@
         <a type="button" class="btn btn-outline-dark" th:href="@{/market/post}">장터게시판에 글쓰기</a>
     </article>
     <script>
-        $(document).ready(function () {
-            function getList() {
-                $.ajax({
-                    url: "/api/v1/market",
-                    type: "get",
-                    dataType: "json",
-                    contentType: "application/json;charset=UTF-8",
-                    async: false,
-                    success: function (data) {
-                        if (data.length === 0) {
-                            alert('조회 결과가 없습니다.');
+        function getList(type) {
+            $.ajax({
+                url: "/api/v1/market?type=" + type,
+                type: "get",
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                async: false,
+                success: function (data) {
+                    if (data.length === 0) {
+                        alert('조회 결과가 없습니다.');
+                    } else {
+                        if (type === 'BUY') {
+                            $('#buy_li').addClass('active');
+                            $('#sell_li').removeClass('active');
+                            $('#all_li').removeClass('active');
+                        } else if (type === 'SELL') {
+                            $('#buy_li').removeClass('active');
+                            $('#sell_li').addClass('active');
+                            $('#all_li').removeClass('active');
                         } else {
-                            for (const datum of data) {
-                                let tr = $('<tr>', {
-                                    onClick: "location.href='/market/" + datum.id + "'",
-                                    style: 'cursor:pointer'
-                                });
-
-                                let type_context;
-                                if (datum.type === 'BUY') {
-                                    type_context = '삽니다';
-                                } else {
-                                    type_context = '팝니다';
-                                }
-
-                                let type = $('<td>');
-                                let span1 = $('<span>', {
-                                    class: 'badge bg-secondary text-decoration-none link-light',
-                                    text: type_context
-                                });
-                                span1.appendTo(type);
-                                type.appendTo(tr);
-
-                                let title = $('<td>', {text: datum.title});
-                                if (datum.step === 'DONE') {
-                                    let step = $('<span>', {
-                                        class: 'badge bg-secondary text-decoration-none link-light ms-2',
-                                        text: '판매완료'
-                                    });
-                                    step.appendTo(title);
-                                }
-                                title.appendTo(tr);
-
-                                let nation = $('<td>', {text: datum.nation.name});
-                                nation.appendTo(tr);
-
-                                let nickname = $('<td>', {text: datum.user.nickname});
-                                nickname.appendTo(tr);
-
-                                let createdAt = $('<td>', {text: datum.createdAt.substring(0, 10)});
-                                createdAt.appendTo(tr);
-
-                                tr.appendTo('#tableBody');
-                            }
+                            $('#buy_li').removeClass('active');
+                            $('#sell_li').removeClass('active');
+                            $('#all_li').addClass('active');
                         }
-                    },
-                    error: function (e) {
-                        console.log(e);
-                    }
-                });
-            }
+                        $('#tableBody').empty();
 
+                        for (const datum of data) {
+                            let tr = $('<tr>', {
+                                onClick: "location.href='/market/" + datum.id + "'",
+                                style: 'cursor:pointer'
+                            });
+
+                            let type_context;
+                            if (datum.type === 'BUY') {
+                                type_context = '삽니다';
+                            } else {
+                                type_context = '팝니다';
+                            }
+
+                            let type = $('<td>');
+                            let span1 = $('<span>', {
+                                class: 'badge bg-secondary text-decoration-none link-light',
+                                text: type_context
+                            });
+                            span1.appendTo(type);
+                            type.appendTo(tr);
+
+                            let title = $('<td>', {text: datum.title});
+                            if (datum.step === 'DONE') {
+                                let step = $('<span>', {
+                                    class: 'badge bg-secondary text-decoration-none link-light ms-2',
+                                    text: '판매완료'
+                                });
+                                step.appendTo(title);
+                            }
+                            title.appendTo(tr);
+
+                            let nation = $('<td>', {text: datum.nation.name});
+                            nation.appendTo(tr);
+
+                            let nickname = $('<td>', {text: datum.user.nickname});
+                            nickname.appendTo(tr);
+
+                            let createdAt = $('<td>', {text: datum.createdAt.substring(0, 10)});
+                            createdAt.appendTo(tr);
+
+                            tr.appendTo('#tableBody');
+                        }
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
+
+        $(document).ready(function () {
             $('#market_li').addClass('active');
-            getList();
+            getList('NONE');
         });
     </script>
 </div>
