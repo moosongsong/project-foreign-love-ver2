@@ -57,6 +57,54 @@ function getDetail() {
             console.log(e);
         }
     });
+
+    $.ajax({
+        url: "/api/v1/comments/" + location.pathname.split("/")[2],
+        type: "get",
+        dataType: "json",
+        contentType: "application/json;charset=UTF-8",
+        async: false,
+        success: function (data) {
+            let comment_area = $('#comments_area');
+            for (const datum of data) {
+                let comment_body = $('<div>', {class: "d-flex mb-4"});
+                let user_image_body = $('<div>', {class: "flex-shrink-0"});
+                let user_image;
+                if (!datum.user.imageUrl) {
+                    user_image = $('<img>', {
+                        class: 'rounded-circle',
+                        src: 'https://moosongsong.s3.ap-northeast-2.amazonaws.com/foreignlove/images.png',
+                        style: 'width:50px'
+                    });
+                } else {
+                    user_image = $('<img>', {class: 'rounded-circlep', src: datum.user.imageUrl, style: 'width:50px'});
+                }
+                user_image.appendTo(user_image_body);
+                user_image_body.appendTo(comment_body);
+
+                let comment_content_body = $('<div>', {class: "ms-3"});
+                let comment_content = $('<span>', {class: "fw-bold me-2", text: datum.user.nickname});
+                comment_content.appendTo(comment_content_body);
+
+                let school = $('<span>', {
+                    class: 'badge bg-secondary text-decoration-none link-light',
+                    text: datum.user.school
+                });
+                school.appendTo(comment_content_body);
+
+                let content = $('<div>', {class: "my-1", text: datum.content});
+                content.appendTo(comment_content_body);
+                comment_content_body.appendTo(comment_body);
+
+                comment_body.appendTo(comment_area);
+            }
+
+            console.log(data);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
 }
 
 function deletePost() {
@@ -83,7 +131,7 @@ function postComment() {
             content: $('#comment').val(),
         }),
         success: function (data) {
-            Swal.fire('등록 성공', "게시글에 댓글이 등로되었어욧!", 'success').then(() => location.reload());
+            Swal.fire('등록 성공', "게시글에 댓글이 등록되었어욧!", 'success').then(() => location.reload());
         },
         error: function (e) {
             Swal.fire('등록 실패', "한번 더 시도해주세요!", 'error');

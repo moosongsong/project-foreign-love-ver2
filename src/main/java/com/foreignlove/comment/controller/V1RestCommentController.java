@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,5 +23,11 @@ public class V1RestCommentController {
         CommentResponse comment = commentService.add(request.boardId(), request.content(),
             (User) session.getAttribute("user"));
         return ResponseEntity.ok().body(comment);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> list(@PathVariable UUID id) {
+        List<CommentResponse> comments = commentService.getAllByBoardId(id);
+        return ResponseEntity.ok().body(comments);
     }
 }

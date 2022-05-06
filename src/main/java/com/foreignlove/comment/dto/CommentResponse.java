@@ -11,8 +11,9 @@ public record CommentResponse(
 ) {
     public record UserResponse(
         UUID id,
+        String imageUrl,
         String nickname,
-        String School,
+        String school,
         String nation
     ){}
 }
