@@ -1,5 +1,6 @@
 package com.foreignlove.school.model;
 
+import com.fasterxml.uuid.Generators;
 import com.foreignlove.nation.model.Nation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +12,12 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 public class School {
-    private UUID id;
-    private Nation nation;
-    private String name;
+    private final UUID id;
+    private final Nation nation;
+    private final String name;
 
     public School(Nation nation, String name) {
+        this.id = Generators.timeBasedGenerator().generate();
         this.nation = nation;
         this.name = name;
     }

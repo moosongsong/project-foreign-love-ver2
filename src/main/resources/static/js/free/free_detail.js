@@ -67,7 +67,26 @@ function deletePost() {
             Swal.fire('삭제 성공', "게시글이 삭제되었어욧!", 'success').then(() => location.href = '/free');
         },
         error: function (e) {
-            Swal.fire('삭제 실패', "한번 더 시도해주세요!", 'success');
+            Swal.fire('삭제 실패', "한번 더 시도해주세요!", 'error');
+        }
+    });
+}
+
+function postComment() {
+    $.ajax({
+        url: "/api/v1/comments",
+        type: "post",
+        dataType: "json",
+        contentType: "application/json;charset=UTF-8",
+        data: JSON.stringify({
+            boardId: location.pathname.split("/")[2],
+            content: $('#comment').val(),
+        }),
+        success: function (data) {
+            Swal.fire('등록 성공', "게시글에 댓글이 등로되었어욧!", 'success').then(() => location.reload());
+        },
+        error: function (e) {
+            Swal.fire('등록 실패', "한번 더 시도해주세요!", 'error');
         }
     });
 }
