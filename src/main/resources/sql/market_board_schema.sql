@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS market_board;
 CREATE TABLE market_board
 (
     id         binary(16)   NOT NULL,

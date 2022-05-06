@@ -1,5 +1,5 @@
 package com.foreignlove.board.market.model;
 
-public enum DealingType {
-    BUY, SELL
+public enum ShppingType {
+    DIRECT, PARCEL
 }

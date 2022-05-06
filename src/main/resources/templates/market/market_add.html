@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Sock</title>
+</head>
+<div class="col-lg-8" layout:fragment="content">
+    <article>
+        <header class="mb-4">
+            <h1 class="fw-bolder mb-1" id="title">새로운 글쓰기</h1>
+            <div class="text-muted fst-italic mb-2">장터게시판에 글을 남겨보세요!</div>
+        </header>
+        <hr/>
+        <section class="mb-5">
+            <form method="POST" enctype="multipart/form-data" action="/api/v1/free" id="request">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="post_title" placeholder="제목을 입력해주세요." name="title">
+                </div>
+                <div class="form-group">
+                    <input type="file" accept="image/*" class="custom-file-input" id="post_image" name="file" required>
+                    <span class="text-muted fst-italic">사진은 1개만 첨부 가능합니다.</span>
+                </div>
+                <div class="form-group">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="type" id="inlineRadio1" value="SELL" checked>
+                        <label class="form-check-label" for="inlineRadio1">팔고 싶어요</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="type" id="inlineRadio2" value="BUY">
+                        <label class="form-check-label" for="inlineRadio2">사고 싶어요</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="number" class="form-control" id="post_cost" placeholder="금액을 입력해주세요." name="cost">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" id="post_content" rows="10" placeholder="내용을 입력해주세요." name="content"></textarea>
+                </div>
+                <button type="button" class="btn btn-outline-dark" onclick="postBoard()">등록하기</button>
+            </form>
+        </section>
+    </article>
+
+    <script>
+        function postBoard() {
+            const form = $("form")[0];
+            const formData = new FormData(form);
+            $.ajax({
+                cache : false,
+                url: "/api/v1/market",
+                type: "post",
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (data) {
+                    if (data.length === 0) {
+                        Swal.fire('등록 실패', '다시 한 번 시도해주세요.', 'error');
+                    } else {
+                        Swal.fire('등록 성공', "장터게시판에 등록되었어욧!", 'success').then(() => location.href = '/market/' + data.id);
+                    }
+                },
+                error: function (e) {
+                    Swal.fire('등록 실패', '다시 한 번 시도해주세요.', 'error');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $('#market_li').addClass('active');
+        });
+    </script>
+</div>

@@ -1,10 +1,12 @@
 package com.foreignlove.board.market.model;
 
+import com.fasterxml.uuid.Generators;
 import com.foreignlove.board.model.Board;
 import com.foreignlove.user.model.User;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -14,6 +16,12 @@ public class MarketBoard extends Board {
     private Integer cost;
     private DealingType type;
     private DealingStep step;
+
+    public MarketBoard(String title, String content, User user, String imageUrl, Integer cost, DealingType type) {
+        this(Generators.timeBasedGenerator().generate(), title, content, user, imageUrl, cost, type,
+            DealingStep.WAITING, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS),
+            LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
+    }
 
     public MarketBoard(UUID id, String title, String content, User user, String imageUrl, Integer cost,
                        DealingType type, DealingStep step, LocalDateTime createdAt, LocalDateTime updatedAt,

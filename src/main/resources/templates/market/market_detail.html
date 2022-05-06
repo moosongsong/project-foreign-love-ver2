@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Sock</title>
+</head>
+<div class="col-lg-8" layout:fragment="content">
+    <article>
+        <header class="mb-4">
+            <h1 class="fw-bolder mb-1" id="title">제목을 여기에 써주세여</h1>
+            <div class="text-muted fst-italic mb-2" id="createdAt_writer">작성일자와 작성인을 기재해주세여</div>
+            <span class="badge bg-secondary text-decoration-none link-light" id="school">여기는 대학교를 기재해주세욧</span>
+            <span class="badge bg-secondary text-decoration-none link-light" id="nation">여기는 국가를 기재해주세욧</span>
+        </header>
+        <figure class="mb-4" id="image_box"></figure>
+        <section>
+            <p class="fs-5 mb-4" id="content">여기에 내용을 적어주세여</p>
+        </section>
+        <section id="owner_container"></section>
+    </article>
+    <!-- Comments section-->
+    <section class="mb-5">
+        <div class="card bg-light">
+            <div class="card-body" id="comments_area">
+                <form class="mb-4 row">
+                    <div class="col-10">
+                    <textarea class="form-control" rows="2" name="comment" id="comment"
+                              placeholder="댓글을 남겨주세요!"></textarea>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark" style="height: 100%; width: 100%;"
+                                onclick="postComment()">등록
+                        </button>
+                    </div>
+                </form>
+                <!-- Comment with nested comments-->
+                <!--                <div class="d-flex mb-4">-->
+                <!--                    &lt;!&ndash; Parent comment&ndash;&gt;-->
+                <!--                    <div class="flex-shrink-0">-->
+                <!--                        <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..."/>-->
+                <!--                    </div>-->
+                <!--                    <div class="ms-3">-->
+                <!--                        <div class="fw-bold">Commenter Name</div>-->
+                <!--                        If you're going to lead a space frontier, it has to be government; it'll never be-->
+                <!--                        private enterprise. Because the space frontier is dangerous, and it's expensive, and it-->
+                <!--                        has unquantified risks.-->
+                <!--                        &lt;!&ndash; Child comment 1&ndash;&gt;-->
+                <!--                        <div class="d-flex mt-4">-->
+                <!--                            <div class="flex-shrink-0"><img class="rounded-circle"-->
+                <!--                                                            src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"-->
+                <!--                                                            alt="..."/></div>-->
+                <!--                            <div class="ms-3">-->
+                <!--                                <div class="fw-bold">Commenter Name</div>-->
+                <!--                                And under those conditions, you cannot establish a capital-market evaluation of-->
+                <!--                                that enterprise. You can't get investors.-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                        &lt;!&ndash; Child comment 2&ndash;&gt;-->
+                <!--                        <div class="d-flex mt-4">-->
+                <!--                            <div class="flex-shrink-0"><img class="rounded-circle"-->
+                <!--                                                            src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"-->
+                <!--                                                            alt="..."/></div>-->
+                <!--                            <div class="ms-3">-->
+                <!--                                <div class="fw-bold">Commenter Name</div>-->
+                <!--                                When you put money directly to a problem, it makes a good headline.-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+            </div>
+        </div>
+    </section>
+    <script src="/js/free/free_detail.js"></script>
+</div>

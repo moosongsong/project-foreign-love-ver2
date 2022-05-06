@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>자유게시판</title>
+</head>
+<div class="col-lg-8" layout:fragment="content">
+    <article>
+        <header class="mb-4">
+            <h1 class="fw-bolder mb-1">자유게시판</h1>
+            <div class="text-muted fst-italic mb-2">자유게시판에서 자유로운 주제로 글을 남겨보세요!</div>
+        </header>
+        <figure class="mb-4">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">제목</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">작성일자</th>
+                </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </figure>
+        <a type="button" class="btn btn-outline-dark" th:href="@{/free/post}">자유게시판에 글쓰기</a>
+    </article>
+    <script>
+        $(document).ready(function () {
+            function getList() {
+                $.ajax({
+                    url: "/api/v1/free",
+                    type: "get",
+                    dataType: "json",
+                    contentType: "application/json;charset=UTF-8",
+                    async: false,
+                    success: function (data) {
+                        if (data.length === 0) {
+                            alert('조회 결과가 없습니다.');
+                        } else {
+                            for (const datum of data) {
+                                let tr = $('<tr>', {onClick: "location.href='/free/" + datum.id + "'"});
+                                tr.css('cursor', 'pointer');
+                                let td1 = $('<td>');
+                                td1.text(datum.title);
+                                let td2 = $('<td>');
+                                td2.text(datum.user.nickname);
+                                let td3 = $('<td>');
+                                td3.text(datum.createdAt.substring(0, 10));
+                                td1.appendTo(tr);
+                                td2.appendTo(tr);
+                                td3.appendTo(tr);
+                                tr.appendTo('#tableBody');
+                            }
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                });
+            }
+            $('#free_li').addClass('active');
+            getList();
+        });
+    </script>
+</div>
