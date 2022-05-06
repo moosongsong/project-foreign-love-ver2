@@ -20,6 +20,15 @@ function getDetail() {
                     let dataImage = $('<img>', {class: 'img-fluid rounded', src: data.imageUrl});
                     dataImage.appendTo("#image_box");
                 }
+                if (data.step==='DONE'){
+                    $("#cost").text('거래 완료 되었요!');
+                }else{
+                    if (data.type==='BUY'){
+                        $("#cost").text(data.cost + '원에 사고 싶어요!');
+                    }else{
+                        $("#cost").text(data.cost + '원에 팔고 싶어요!');
+                    }
+                }
             }
         },
         error: function (e) {
