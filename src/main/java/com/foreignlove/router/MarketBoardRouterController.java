@@ -15,10 +15,10 @@ public class MarketBoardRouterController {
         return "market/market_list";
     }
 
-//    @GetMapping("/{id}")
-//    public String detailPage(@PathVariable("id") UUID id) {
-//        return "free/free_detail";
-//    }
+    @GetMapping("/{id}")
+    public String detailPage(@PathVariable("id") UUID id) {
+        return "market/market_detail";
+    }
 
     @GetMapping("/post")
     public String postPage() {

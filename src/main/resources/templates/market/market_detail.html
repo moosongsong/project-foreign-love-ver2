@@ -2,7 +2,7 @@
 <html lang="ko"
       layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <title>Sock</title>
+    <title>제목을 여기에 써주세여</title>
 </head>
 <div class="col-lg-8" layout:fragment="content">
     <article>
@@ -18,57 +18,5 @@
         </section>
         <section id="owner_container"></section>
     </article>
-    <!-- Comments section-->
-    <section class="mb-5">
-        <div class="card bg-light">
-            <div class="card-body" id="comments_area">
-                <form class="mb-4 row">
-                    <div class="col-10">
-                    <textarea class="form-control" rows="2" name="comment" id="comment"
-                              placeholder="댓글을 남겨주세요!"></textarea>
-                    </div>
-                    <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" style="height: 100%; width: 100%;"
-                                onclick="postComment()">등록
-                        </button>
-                    </div>
-                </form>
-                <!-- Comment with nested comments-->
-                <!--                <div class="d-flex mb-4">-->
-                <!--                    &lt;!&ndash; Parent comment&ndash;&gt;-->
-                <!--                    <div class="flex-shrink-0">-->
-                <!--                        <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..."/>-->
-                <!--                    </div>-->
-                <!--                    <div class="ms-3">-->
-                <!--                        <div class="fw-bold">Commenter Name</div>-->
-                <!--                        If you're going to lead a space frontier, it has to be government; it'll never be-->
-                <!--                        private enterprise. Because the space frontier is dangerous, and it's expensive, and it-->
-                <!--                        has unquantified risks.-->
-                <!--                        &lt;!&ndash; Child comment 1&ndash;&gt;-->
-                <!--                        <div class="d-flex mt-4">-->
-                <!--                            <div class="flex-shrink-0"><img class="rounded-circle"-->
-                <!--                                                            src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"-->
-                <!--                                                            alt="..."/></div>-->
-                <!--                            <div class="ms-3">-->
-                <!--                                <div class="fw-bold">Commenter Name</div>-->
-                <!--                                And under those conditions, you cannot establish a capital-market evaluation of-->
-                <!--                                that enterprise. You can't get investors.-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                        &lt;!&ndash; Child comment 2&ndash;&gt;-->
-                <!--                        <div class="d-flex mt-4">-->
-                <!--                            <div class="flex-shrink-0"><img class="rounded-circle"-->
-                <!--                                                            src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"-->
-                <!--                                                            alt="..."/></div>-->
-                <!--                            <div class="ms-3">-->
-                <!--                                <div class="fw-bold">Commenter Name</div>-->
-                <!--                                When you put money directly to a problem, it makes a good headline.-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                </div>-->
-            </div>
-        </div>
-    </section>
-    <script src="/js/free/free_detail.js"></script>
+    <script src="/js/market/market_detail.js"></script>
 </div>

@@ -1,22 +1,23 @@
 package com.foreignlove.board.market.repository;
 
+import com.foreignlove.board.free.model.FreeBoard;
 import com.foreignlove.board.market.model.DealingStep;
 import com.foreignlove.board.market.model.DealingType;
 import com.foreignlove.board.market.model.MarketBoard;
+import com.foreignlove.common.exception.FindFailException;
 import com.foreignlove.common.exception.SaveFailException;
 import com.foreignlove.common.util.JdbcUtils;
 import com.foreignlove.nation.model.Nation;
 import com.foreignlove.school.model.School;
 import com.foreignlove.user.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static com.foreignlove.common.util.JdbcUtils.toLocaleDateTime;
 
@@ -37,6 +38,13 @@ public class JdbcMarketBoardRepository implements MarketBoardRepository {
     }
 
     @Override
+    public MarketBoard findById(UUID id) {
+        return jdbcTemplate.queryForObject("SELECT * FROM market_board_view " +
+                "WHERE id = UNHEX(REPLACE(:id, '-', '')) AND deleted_at IS NULL",
+            Collections.singletonMap("id", id.toString()), marketBoardRowMapper);
+    }
+
+    @Override
     public List<MarketBoard> findAll() {
         return jdbcTemplate.query("SELECT * FROM market_board_view WHERE deleted_at IS NULL", marketBoardRowMapper);
     }
@@ -45,6 +53,21 @@ public class JdbcMarketBoardRepository implements MarketBoardRepository {
     public List<MarketBoard> findAllByType(DealingType type) {
         return jdbcTemplate.query("SELECT * FROM market_board_view WHERE type LIKE :type AND deleted_at IS NULL",
             Collections.singletonMap("type", type.toString()), marketBoardRowMapper);
+    }
+
+    @Override
+    public void findByIdAndUserId(UUID id, UUID userId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id.toString());
+        map.put("userId", userId.toString());
+        try {
+            jdbcTemplate.queryForObject(
+                "SELECT * from market_board_view WHERE id = UNHEX(REPLACE(:id, '-', '')) " +
+                    "AND user_id = UNHEX(REPLACE(:userId, '-', ''))",
+                map, marketBoardRowMapper);
+        } catch (DataAccessException e) {
+            throw new FindFailException();
+        }
     }
 
     private final RowMapper<MarketBoard> marketBoardRowMapper = (rs, rowNum) -> {
