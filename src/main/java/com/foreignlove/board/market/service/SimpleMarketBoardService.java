@@ -1,6 +1,7 @@
 package com.foreignlove.board.market.service;
 
 import com.foreignlove.board.market.dto.MarketBoardCreateResponse;
+import com.foreignlove.board.market.dto.MarketBoardListResponse;
 import com.foreignlove.board.market.model.DealingType;
 import com.foreignlove.board.market.model.MarketBoard;
 import com.foreignlove.board.market.repository.MarketBoardRepository;
@@ -11,6 +12,8 @@ import com.foreignlove.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +31,17 @@ public class SimpleMarketBoardService implements MarketBoardService {
         return getCreateResponse(result);
     }
 
+    @Override
+    public List<MarketBoardListResponse> getAll(String type) {
+        List<MarketBoard> list;
+        try {
+            list = marketBoardRepository.findAllByType(DealingType.valueOf(type));
+        } catch (Exception e) {
+            list = marketBoardRepository.findAll();
+        }
+        return list.stream().map(this::getListResponse).toList();
+    }
+
     private MarketBoardCreateResponse getCreateResponse(MarketBoard marketBoard) {
         User user = marketBoard.getUser();
         School school = user.getSchool();
@@ -41,5 +55,17 @@ public class SimpleMarketBoardService implements MarketBoardService {
         return new MarketBoardCreateResponse(marketBoard.getId(), marketBoard.getTitle(), marketBoard.getContent(),
             userResponse, schoolResponse, nationResponse, marketBoard.getImageUrl(), marketBoard.getCost(),
             marketBoard.getType().toString(), marketBoard.getStep().toString(), marketBoard.getCreatedAt());
+    }
+
+    private MarketBoardListResponse getListResponse(MarketBoard marketBoard) {
+        User user = marketBoard.getUser();
+        Nation nation = user.getSchool().getNation();
+        MarketBoardListResponse.UserResponse userResponse = new MarketBoardListResponse.UserResponse(user.getId(),
+            user.getNickname());
+        MarketBoardListResponse.NationResponse nationResponse =
+            new MarketBoardListResponse.NationResponse(nation.getId(), nation.getName());
+        return new MarketBoardListResponse(marketBoard.getId(), marketBoard.getTitle(),
+            userResponse, nationResponse, marketBoard.getCost(), marketBoard.getType().toString(),
+            marketBoard.getStep().toString(), marketBoard.getCreatedAt());
     }
 }

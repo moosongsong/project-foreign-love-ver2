@@ -19,8 +19,7 @@ public class MarketBoard extends Board {
 
     public MarketBoard(String title, String content, User user, String imageUrl, Integer cost, DealingType type) {
         this(Generators.timeBasedGenerator().generate(), title, content, user, imageUrl, cost, type,
-            DealingStep.WAITING, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS),
-            LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
+            DealingStep.WAITING, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), null, null);
     }
 
     public MarketBoard(UUID id, String title, String content, User user, String imageUrl, Integer cost,

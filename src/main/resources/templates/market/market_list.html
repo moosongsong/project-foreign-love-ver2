@@ -8,13 +8,15 @@
     <article>
         <header class="mb-4">
             <h1 class="fw-bolder mb-1">자유게시판</h1>
-            <div class="text-muted fst-italic mb-2">자유게시판에서 자유로운 주제로 글을 남겨보세요!</div>
+            <div class="text-muted fst-italic mb-2">장터게시판에서 거래를 진행해보세요!</div>
         </header>
         <figure class="mb-4">
             <table class="table table-hover">
                 <thead>
                 <tr>
+                    <th scope="col">분류</th>
                     <th scope="col">제목</th>
+                    <th scope="col">지역</th>
                     <th scope="col">작성자</th>
                     <th scope="col">작성일자</th>
                 </tr>
@@ -23,13 +25,13 @@
                 </tbody>
             </table>
         </figure>
-        <a type="button" class="btn btn-outline-dark" th:href="@{/free/post}">자유게시판에 글쓰기</a>
+        <a type="button" class="btn btn-outline-dark" th:href="@{/market/post}">장터게시판에 글쓰기</a>
     </article>
     <script>
         $(document).ready(function () {
             function getList() {
                 $.ajax({
-                    url: "/api/v1/free",
+                    url: "/api/v1/market",
                     type: "get",
                     dataType: "json",
                     contentType: "application/json;charset=UTF-8",
@@ -39,17 +41,45 @@
                             alert('조회 결과가 없습니다.');
                         } else {
                             for (const datum of data) {
-                                let tr = $('<tr>', {onClick: "location.href='/free/" + datum.id + "'"});
-                                tr.css('cursor', 'pointer');
-                                let td1 = $('<td>');
-                                td1.text(datum.title);
-                                let td2 = $('<td>');
-                                td2.text(datum.user.nickname);
-                                let td3 = $('<td>');
-                                td3.text(datum.createdAt.substring(0, 10));
-                                td1.appendTo(tr);
-                                td2.appendTo(tr);
-                                td3.appendTo(tr);
+                                let tr = $('<tr>', {
+                                    onClick: "location.href='/market/" + datum.id + "'",
+                                    style: 'cursor:pointer'
+                                });
+
+                                let type_context;
+                                if (datum.type === 'BUY') {
+                                    type_context = '삽니다';
+                                } else {
+                                    type_context = '팝니다';
+                                }
+
+                                let type = $('<td>');
+                                let span1 = $('<span>', {
+                                    class: 'badge bg-secondary text-decoration-none link-light',
+                                    text: type_context
+                                });
+                                span1.appendTo(type);
+                                type.appendTo(tr);
+
+                                let title = $('<td>', {text: datum.title});
+                                if (datum.step === 'DONE') {
+                                    let step = $('<span>', {
+                                        class: 'badge bg-secondary text-decoration-none link-light ms-2',
+                                        text: '판매완료'
+                                    });
+                                    step.appendTo(title);
+                                }
+                                title.appendTo(tr);
+
+                                let nation = $('<td>', {text: datum.nation.name});
+                                nation.appendTo(tr);
+
+                                let nickname = $('<td>', {text: datum.user.nickname});
+                                nickname.appendTo(tr);
+
+                                let createdAt = $('<td>', {text: datum.createdAt.substring(0, 10)});
+                                createdAt.appendTo(tr);
+
                                 tr.appendTo('#tableBody');
                             }
                         }
@@ -59,7 +89,8 @@
                     }
                 });
             }
-            $('#free_li').addClass('active');
+
+            $('#market_li').addClass('active');
             getList();
         });
     </script>

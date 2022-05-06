@@ -12,7 +12,7 @@ import java.util.UUID;
 public class MarketBoardRouterController {
     @GetMapping
     public String listPage() {
-        return "market/market_add";
+        return "market/market_list";
     }
 
 //    @GetMapping("/{id}")
@@ -20,8 +20,8 @@ public class MarketBoardRouterController {
 //        return "free/free_detail";
 //    }
 
-//    @GetMapping("/post")
-//    public String postPage() {
-//        return "free/free_add";
-//    }
+    @GetMapping("/post")
+    public String postPage() {
+        return "market/market_add";
+    }
 }
