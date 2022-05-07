@@ -20,12 +20,12 @@ function getDetail() {
                     let dataImage = $('<img>', {class: 'img-fluid rounded', src: data.imageUrl});
                     dataImage.appendTo("#image_box");
                 }
-                if (data.step==='DONE'){
+                if (data.step === 'DONE') {
                     $("#cost").text('거래 완료 되었요!');
-                }else{
-                    if (data.type==='BUY'){
+                } else {
+                    if (data.type === 'BUY') {
                         $("#cost").text(data.cost + '원에 사고 싶어요!');
-                    }else{
+                    } else {
                         $("#cost").text(data.cost + '원에 팔고 싶어요!');
                     }
                 }
@@ -73,7 +73,7 @@ function deletePost() {
         url: "/api/v1/market/" + location.pathname.split("/")[2],
         type: "delete",
         success: function (data) {
-            Swal.fire('삭제 성공', "게시글이 삭제되었어욧!", 'success').then(() => location.href = '/free');
+            Swal.fire('삭제 성공', "게시글이 삭제되었어욧!", 'success').then(() => location.href = '/market');
         },
         error: function (e) {
             Swal.fire('삭제 실패', "한번 더 시도해주세요!", 'error');

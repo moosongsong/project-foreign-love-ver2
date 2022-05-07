@@ -19,4 +19,6 @@ public interface MarketBoardService {
     List<MarketBoardListResponse> getAll(String type);
 
     Boolean isMine(UUID id, User user);
+
+    void removeById(UUID id);
 }

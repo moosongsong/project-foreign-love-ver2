@@ -16,4 +16,6 @@ public interface MarketBoardRepository {
     List<MarketBoard> findAllByType(DealingType type);
 
     void findByIdAndUserId(UUID id, UUID userId);
+
+    void deleteById(UUID id);
 }

@@ -42,6 +42,13 @@ public class V1RestMarketBoardController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<Object> delete(@PathVariable UUID id) {
+        // TODO 사용자 검증 필요
+        marketBoardService.removeById(id);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/check/{id}")
     public ResponseEntity<Object> isMine(@PathVariable UUID id, HttpSession session) {
         User user = (User) session.getAttribute("user");

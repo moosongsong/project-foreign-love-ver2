@@ -4,6 +4,7 @@ import com.foreignlove.board.free.model.FreeBoard;
 import com.foreignlove.board.market.model.DealingStep;
 import com.foreignlove.board.market.model.DealingType;
 import com.foreignlove.board.market.model.MarketBoard;
+import com.foreignlove.common.exception.DeleteFailException;
 import com.foreignlove.common.exception.FindFailException;
 import com.foreignlove.common.exception.SaveFailException;
 import com.foreignlove.common.util.JdbcUtils;
@@ -68,6 +69,14 @@ public class JdbcMarketBoardRepository implements MarketBoardRepository {
         } catch (DataAccessException e) {
             throw new FindFailException();
         }
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        int result = jdbcTemplate.update(
+            "UPDATE market_board SET deleted_at = NOW() WHERE id = UNHEX(REPLACE(:id, '-', ''))",
+            Collections.singletonMap("id", id.toString()));
+        if (result != 1) throw new DeleteFailException();
     }
 
     private final RowMapper<MarketBoard> marketBoardRowMapper = (rs, rowNum) -> {

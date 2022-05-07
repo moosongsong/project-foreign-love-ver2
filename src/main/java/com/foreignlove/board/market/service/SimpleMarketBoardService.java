@@ -61,6 +61,11 @@ public class SimpleMarketBoardService implements MarketBoardService {
         return true;
     }
 
+    @Override
+    public void removeById(UUID id) {
+        marketBoardRepository.deleteById(id);
+    }
+
     private MarketBoardCreateResponse getCreateResponse(MarketBoard marketBoard) {
         User user = marketBoard.getUser();
         School school = user.getSchool();
